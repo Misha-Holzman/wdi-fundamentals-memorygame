@@ -7,14 +7,14 @@ var cards = [
 	cardImage: "images/queen-of-hearts.png"
 },
 {
-	rank: "queen",
-	suit: "diamonds",
-	cardImage: "images/queen-of-diamonds.png"
-},
-{
 	rank: "king",
 	suit: "hearts",
 	cardImage: "images/king-of-hearts.png"
+},
+{
+	rank: "queen",
+	suit: "diamonds",
+	cardImage: "images/queen-of-diamonds.png"
 },
 {
 	rank: "king",
@@ -26,43 +26,64 @@ var cards = [
 
 
 var cardsInPlay = [];
+var matchCounter = 0;
+
 
 var checkForMatch = function() {
 	if (cardsInPlay[0] === cardsInPlay[1]) {
-	console.log("You found a match!");
+	alert("You found a match!");
 	} else {
 	alert("Sorry, try again.");
 	}
 };
 
 
-
-var flipCard = function(cardID) {
+var flipCard = function() {
+	var cardId = this.getAttribute('data-id');
+	console.log("User flipped " + cards[cardId].rank);
+    cardsInPlay.push(cards[cardId].rank);
+	console.log(cards[cardId].cardImage);
+ 	console.log(cards[cardId].suit);
+    this.setAttribute('src', cards[cardId].cardImage);
     checkForMatch();
-    console.log("user flipped " + cards[cardID].rank);
-    cardsInPlay.push(cards[cardID].rank);
-    console.log(cards[cardID].cardImage);
-    console.log(cards[cardID].suit);
 };
 
-flipCard(0);
-flipCard(2);
+
+var createBoard = function() {
+	for (var i = 0; i < cards.length; i++) {
+    var cardElement = document.createElement('img');
+    cardElement.setAttribute('src', 'images/back.png');
+    cardElement.setAttribute('data-id', i);
+    cardElement.addEventListener('click', flipCard);
+    document.getElementById('game-board').appendChild(cardElement); 
+}
+};
+
+
+var reset = function () {
+  for (var i = 0; i < cards.length; i++) {
+    document.getElementsByTagName('img')[i].setAttribute('src', 'images/back.png');
+  }
+  cardsInPlay = [];
+  matchCounter = 0;
+};
+
+
+var button = document.getElementById('reset');
+button.addEventListener('click', reset);
+
+
+createBoard();
 
 
 
 
-    
 
 
 
-/* 	if (cardsInPlay.length === 4 && (cardsInPlay[0] === cardsInPlay[2])) {
-	    alert("You found a match!");
-    } else {
-	console.log("Sorry, try again.");
-    }
 
-    (I am unclear if this code should be deleted or not)
-*/
+
+
 
 
 
